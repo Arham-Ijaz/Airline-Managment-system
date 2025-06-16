@@ -517,3 +517,71 @@ INSERT INTO Booking (bookingID, destination, fromWhichCity, history, twoWayOrOne
 (62, 'Juba', 'Khartoum', 'Conference', 'One Way', '2025-08-31', NULL, NULL, NULL, 62, 62, '14B', '09:00:00', '11:00:00', '2025-08-31', 300.00),
 (63, 'Gulu', 'Kampala', 'Family visit', 'Two Way', '2025-09-01', 2, '2025-09-03', 8.00, 63, 63, '15C', '10:00:00', '11:00:00', '2025-09-01', 150.00),
 (64, 'Bulawayo', 'Harare', 'Vacation', 'One Way', '2025-09-02', NULL, NULL, NULL, 64, 64, '16A', '11:00:00', '12:00:00', '2025-09-02', 150.00);
+
+
+
+
+- 1. INNER JOIN: Customer and Airline
+-- Purpose: Retrieve customers and their associated airline names
+SELECT c.customerID, c.firstName, c.lastName, a.AirlineName
+FROM Customer c
+INNER JOIN Airline a ON c.Fk_AirlineID = a.AirlineID;
+
+-- 2. INNER JOIN: Booking, Customer, and Flights
+
+
+-- 3. LEFT JOIN: Airport and Country
+-- Purpose: List all airports, including those without a linked country
+SELECT a.AirportID, a.airportName, c.DepartureCountry
+FROM Airport a
+LEFT JOIN Country c ON a.Fk_countryID = c.countryID;
+
+-- 4. LEFT JOIN: Employee and Airport
+-- Purpose: Retrieve all employees, including those not assigned to an airport
+SELECT e.employeeID, e.firstName, a.airportName
+FROM Employee e
+LEFT JOIN Airport a ON e.Fk_airportID = a.AirportID;
+
+-- 5. RIGHT JOIN: Flights and Aircraft
+-- Purpose: List all aircraft, including those not assigned to any flights
+SELECT f.flightNo, a.model
+FROM Flights f
+RIGHT JOIN Aircraft a ON f.Fk_aircraftID = a.aircraftID;
+
+-- 6. RIGHT JOIN: Ticket and Booking
+-- Purpose: Retrieve all bookings, including those without tickets
+SELECT t.ticketID, b.bookingID, b.destination
+FROM Ticket t
+RIGHT JOIN Booking b ON t.Fk_bookingID = b.bookingID;
+
+-- 7. FULL OUTER JOIN (Simulated): Luggage and Booking
+-- Purpose: Show all luggage and bookings, including those without corresponding records
+SELECT l.lugID, l.weight, b.bookingID
+FROM Luggage l
+LEFT JOIN Booking b ON l.Fk_bookingID = b.bookingID
+UNION
+SELECT l.lugID, l.weight, b.bookingID
+FROM Luggage l
+RIGHT JOIN Booking b ON l.Fk_bookingID = b.bookingID;
+
+-- 8. CROSS JOIN: City and Country
+-- Purpose: Generate all possible city-country combinations (limited for practicality)
+SELECT c.cityName, co.DepartureCountry
+FROM City c
+CROSS JOIN Country co;
+
+-- 9. INNER JOIN: Pilot, Employee, and Flights
+-- Purpose: List pilots with their employee details and assigned flights
+SELECT p.lisenceNum, e.firstName, e.lastName, f.flightID
+FROM Pilot p
+INNER JOIN Employee e ON p.FK_employeeID = e.employeeID
+INNER JOIN Flights f ON p.FK_flightID = f.flightID;
+
+
+
+
+-- 12. INNER JOIN: City and Country
+-- Purpose: List cities with their associated countries
+SELECT c.cityID, c.cityName, co.DepartureCountry
+FROM City c
+INNER JOIN Country co ON c.FK_countryID = co.countryID;
